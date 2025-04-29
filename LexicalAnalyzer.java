@@ -10,6 +10,8 @@ public class LexicalAnalyzer {
     private char currentChar;
     private boolean endOfFile = false;
 
+    private BinarySearchTree variables = new BinarySearchTree();
+
     public LexicalAnalyzer(String filename) throws IOException {
         reader = new BufferedReader(new FileReader(filename));
         advance();
@@ -51,6 +53,7 @@ public class LexicalAnalyzer {
                     }
                     String lexeme = buffer.toString();
                     lexemes.add(new Lexeme(KEYWORDS.contains(lexeme) ? LexemeType.KEYWORD : LexemeType.IDENTIFIER, lexeme));
+                    addVariable(lexeme, null);
                     state = StateType.START;
                 }
 
@@ -105,6 +108,18 @@ public class LexicalAnalyzer {
 
         reader.close();
         return lexemes;
+    }
+
+    public void addVariable(String variableName, Object value) {
+        variables.insert(variableName, value);
+    }
+
+    public Object getVariable(String variableName) {
+        return variables.search(variableName);
+    }
+
+    public BinarySearchTree getVariables() {
+        return variables;
     }
 
     private void advance() throws IOException {

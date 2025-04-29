@@ -1,5 +1,5 @@
-import java.io.IOException;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -16,6 +16,10 @@ public class Main {
                 System.out.println(index + ":\t\t" + lex.getValue() + "\t\t" + lex.getType());
                 index++;
             }
+
+            BinarySearchTree variables = analyzer.getVariables();
+            System.out.println("Variables:");
+            variables.print();
         } catch (IOException e) {
             System.out.println("Error opening file!");
         } catch (LexicalException e) {

@@ -1,0 +1,7 @@
+int x := X + V;
+int y := X * (V + I);
+do {
+    x := x + I;
+    y := y - X;
+} while (x < y);
+
