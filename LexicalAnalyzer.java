@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 
 public class LexicalAnalyzer {
-    private static final Set<String> KEYWORDS = Set.of("for", "do", "int");
+    private static final Set<String> KEYWORDS = Set.of("for", "do", "int", "while");
 
     private final BufferedReader reader;
     private int lineNumber = 1;
@@ -52,10 +52,16 @@ public class LexicalAnalyzer {
                         advance();
                     }
                     String lexeme = buffer.toString();
-                    lexemes.add(new Lexeme(KEYWORDS.contains(lexeme) ? LexemeType.KEYWORD : LexemeType.IDENTIFIER, lexeme));
-                    addVariable(lexeme, null);
+
+                    // Add the variable to the BinarySearchTree only if it is not a keyword
+                    if (!KEYWORDS.contains(lexeme)) {
+                            addVariable(lexeme, null);
+                    }
+
+                    lexemes.add(new Lexeme(LexemeType.IDENTIFIER, lexeme));
                     state = StateType.START;
                 }
+
 
                 case NUMBER -> {
                     while ("XVI".indexOf(currentChar) >= 0) {
